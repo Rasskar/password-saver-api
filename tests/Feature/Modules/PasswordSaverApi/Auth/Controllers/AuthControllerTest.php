@@ -5,8 +5,6 @@ namespace Tests\Feature\Modules\PasswordSaverApi\Auth\Controllers;
 use App\Models\User;
 use App\Modules\PasswordSaverApi\Auth\DTO\RegisterUserDto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
