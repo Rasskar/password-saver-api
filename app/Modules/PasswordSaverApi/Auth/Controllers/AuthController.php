@@ -2,6 +2,7 @@
 
 namespace App\Modules\PasswordSaverApi\Auth\Controllers;
 
+use App\Exceptions\SaveException;
 use App\Http\Controllers\Controller;
 use App\Modules\PasswordSaverApi\Auth\Actions\LoginUserAction;
 use App\Modules\PasswordSaverApi\Auth\Actions\RegisterUserAction;
@@ -184,7 +185,7 @@ class AuthController extends Controller
     {
         try {
             if (!$request->user()->currentAccessToken()->delete()) {
-                throw new Exception('Error deleting token when logging out', Response::HTTP_INTERNAL_SERVER_ERROR);
+                throw new SaveException('Error deleting token when logging out.');
             }
 
             return response()->json(['message' => 'Successfully logged out'], Response::HTTP_OK);

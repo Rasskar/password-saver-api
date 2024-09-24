@@ -20,4 +20,10 @@ Route::prefix('v1/password-saver-api')
         Route::get('user', [\App\Modules\PasswordSaverApi\User\Controllers\UserController::class, 'info']);
         Route::put('user/setPinCode', [\App\Modules\PasswordSaverApi\User\Controllers\UserController::class, 'setPinCode']);
         Route::put('user/updatePinCode', [\App\Modules\PasswordSaverApi\User\Controllers\UserController::class, 'updatePinCode']);
+
+        Route::post('categories', [\App\Modules\PasswordSaverApi\Category\Controllers\CategoryAccountController::class, 'store']);
+        Route::put('categories/{categoryAccount}', [\App\Modules\PasswordSaverApi\Category\Controllers\CategoryAccountController::class, 'update']);
+        Route::delete('categories/{categoryAccount}', [\App\Modules\PasswordSaverApi\Category\Controllers\CategoryAccountController::class, 'destroy']);
+        Route::get('categories/{categoryAccount}', [\App\Modules\PasswordSaverApi\Category\Controllers\CategoryAccountController::class, 'show']);
+        Route::get('categories', [\App\Modules\PasswordSaverApi\Category\Controllers\CategoryAccountController::class, 'index']);
     });
