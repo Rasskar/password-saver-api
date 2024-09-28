@@ -29,6 +29,11 @@ use OpenApi\Annotations as OA;
  *      name="User",
  *      description="Пользователи"
  * )
+ *
+ * @OA\Tag(
+ *       name="Category",
+ *       description="Категории"
+ * )
  */
 abstract class Controller
 {

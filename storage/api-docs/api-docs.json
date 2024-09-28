@@ -322,6 +322,265 @@
                 ]
             }
         },
+        "/api/v1/password-saver-api/categories": {
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Создание категории",
+                "operationId": "storeCategoryPasswordSaverApi",
+                "requestBody": {
+                    "description": "Данные для создания категории",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Название категории, максимальная длина 255 символов",
+                                        "type": "string",
+                                        "example": "Test Category Name"
+                                    },
+                                    "description": {
+                                        "description": "Описание категории, не является обязательным",
+                                        "type": "string",
+                                        "example": "Test category description"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Категория успешно создана",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "ID созданной категории",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "description": "Название категории",
+                                                    "type": "string",
+                                                    "example": "Test Category Name "
+                                                },
+                                                "description": {
+                                                    "description": "Описание категории",
+                                                    "type": "string",
+                                                    "example": "Test category description"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Пользователь не аутентифицирован",
+                                            "type": "string",
+                                            "example": "Текст ошибки"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки валидации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ошибка сервера"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/password-saver-api/categories/{id}": {
+            "put": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Обновление категории",
+                "description": "Обновление существующей категории пользователя",
+                "operationId": "updateCategoryPasswordSaverApi",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID категории для обновления",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Данные для обновления категории",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Название категории, максимальная длина 255 символов",
+                                        "type": "string",
+                                        "example": "Test category name"
+                                    },
+                                    "description": {
+                                        "description": "Описание категории, не является обязательным",
+                                        "type": "string",
+                                        "example": "Test category description"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Категория успешно обновлена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "ID категории",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "description": "Название категории",
+                                                    "type": "string",
+                                                    "example": "Test category name"
+                                                },
+                                                "description": {
+                                                    "description": "Описание категории",
+                                                    "type": "string",
+                                                    "example": "Test category description"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Пользователь не аутентифицирован",
+                                            "type": "string",
+                                            "example": "Текст ошибки"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Поле name обязательно для заполнения."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ошибка сервера"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/password-saver-api/user": {
             "get": {
                 "tags": [
@@ -624,6 +883,10 @@
         {
             "name": "User",
             "description": "Пользователи"
+        },
+        {
+            "name": "Category",
+            "description": "Категории"
         }
     ]
 }

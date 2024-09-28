@@ -14,12 +14,61 @@ use App\Modules\PasswordSaverApi\Category\Resources\CategoryAccountResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 
 class CategoryAccountController extends Controller
 {
     /**
+     * @OA\Post(
+     *       path="/api/v1/password-saver-api/categories",
+     *       summary="Создание категории",
+     *       tags={"Category"},
+     *       operationId="storeCategoryPasswordSaverApi",
+     *       @OA\RequestBody(
+     *           required=true,
+     *           description="Данные для создания категории",
+     *           @OA\JsonContent(
+     *               required={"name"},
+     *               @OA\Property(property="name", type="string", example="Test Category Name", description="Название категории, максимальная длина 255 символов"),
+     *               @OA\Property(property="description", type="string", example="Test category description", description="Описание категории, не является обязательным")
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=200,
+     *           description="Категория успешно создана",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="data", type="object",
+     *                   @OA\Property(property="id", type="integer", example=1, description="ID созданной категории"),
+     *                   @OA\Property(property="name", type="string", example="Test Category Name ", description="Название категории"),
+     *                   @OA\Property(property="description", type="string", example="Test category description", description="Описание категории")
+     *               )
+     *           )
+     *       ),
+     *       @OA\Response(
+     *            response=401,
+     *            description="Ошибка аутентификации",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки", description="Пользователь не аутентифицирован")
+     *            )
+     *       ),
+     *       @OA\Response(
+     *           response=422,
+     *           description="Ошибка валидации",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Текст ошибки валидации")
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=500,
+     *           description="Внутренняя ошибка сервера",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Ошибка сервера")
+     *           )
+     *       ),
+     *       security={{"bearerAuth":{}}},
+     * )
      *
      * Создаём категорию
      * @param CategoryAccountRequest $request
@@ -44,6 +93,63 @@ class CategoryAccountController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *       path="/api/v1/password-saver-api/categories/{id}",
+     *       summary="Обновление категории",
+     *       tags={"Category"},
+     *       operationId="updateCategoryPasswordSaverApi",
+     *       description="Обновление существующей категории пользователя",
+     *       @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           required=true,
+     *           description="ID категории для обновления",
+     *           @OA\Schema(type="integer", example=1)
+     *       ),
+     *       @OA\RequestBody(
+     *           required=true,
+     *           description="Данные для обновления категории",
+     *           @OA\JsonContent(
+     *               required={"name"},
+     *               @OA\Property(property="name", type="string", example="Test category name", description="Название категории, максимальная длина 255 символов"),
+     *               @OA\Property(property="description", type="string", example="Test category description", description="Описание категории, не является обязательным")
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=200,
+     *           description="Категория успешно обновлена",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="data", type="object",
+     *                   @OA\Property(property="id", type="integer", example=1, description="ID категории"),
+     *                   @OA\Property(property="name", type="string", example="Test category name", description="Название категории"),
+     *                   @OA\Property(property="description", type="string", example="Test category description", description="Описание категории")
+     *               )
+     *           )
+     *       ),
+     *       @OA\Response(
+     *            response=401,
+     *            description="Ошибка аутентификации",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки", description="Пользователь не аутентифицирован")
+     *            )
+     *       ),
+     *       @OA\Response(
+     *           response=422,
+     *           description="Ошибка валидации",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Поле name обязательно для заполнения.")
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=500,
+     *           description="Внутренняя ошибка сервера",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Ошибка сервера")
+     *           )
+     *       ),
+     *       security={{"bearerAuth":{}}}
+     * )
+     *
      * Обновляем категорию
      * @param CategoryAccountRequest $request
      * @param CategoryAccount $categoryAccount
