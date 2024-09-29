@@ -323,11 +323,217 @@
             }
         },
         "/api/v1/password-saver-api/categories": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Получение списка категорий",
+                "description": "Возвращает список категорий, принадлежащих пользователю, с пагинацией",
+                "operationId": "indexCategoryPasswordSaverApi",
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "ID категории",
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "description": "Название категории",
+                                                        "type": "string",
+                                                        "example": "Test Category Name"
+                                                    },
+                                                    "description": {
+                                                        "description": "Описание категории",
+                                                        "type": "string",
+                                                        "example": "Test category description"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "description": "Ссылка на первую страницу",
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v1/password-saver-api/categories?page=1"
+                                                },
+                                                "last": {
+                                                    "description": "Ссылка на последнюю страницу",
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v1/password-saver-api/categories?page=1"
+                                                },
+                                                "prev": {
+                                                    "description": "Ссылка на предыдущую страницу",
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "description": "Ссылка на следующую страницу",
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "description": "Текущая страница",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "description": "Номер первой записи на текущей странице",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "description": "Общее количество страниц",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "description": "Ссылка на предыдущую страницу",
+                                                                "type": "string",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "label": {
+                                                                "description": "Текст ссылки на предыдущую страницу",
+                                                                "type": "string",
+                                                                "example": "&laquo; Previous"
+                                                            },
+                                                            "active": {
+                                                                "description": "Активна ли ссылка",
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "path": {
+                                                    "description": "Базовый URL для запросов пагинации",
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/v1/password-saver-api/categories"
+                                                },
+                                                "per_page": {
+                                                    "description": "Количество записей на странице",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "to": {
+                                                    "description": "Номер последней записи на текущей странице",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total": {
+                                                    "description": "Общее количество записей",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки аутентификации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Обьект не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки валидации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки сервера"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Создание категории",
+                "description": "Создание категории пользователя",
                 "operationId": "storeCategoryPasswordSaverApi",
                 "requestBody": {
                     "description": "Данные для создания категории",
@@ -357,7 +563,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Категория успешно создана",
+                        "description": "Успешный ответ",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -395,7 +601,131 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Пользователь не аутентифицирован",
+                                            "type": "string",
+                                            "example": "Текст ошибки аутентификации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки валидации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки сервера"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/password-saver-api/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Просмотр категории",
+                "description": "Просмотр существующей категории пользователя",
+                "operationId": "showCategoryPasswordSaverApi",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID категории",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "ID категории",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "description": "Название категории",
+                                                    "type": "string",
+                                                    "example": "Test category name"
+                                                },
+                                                "description": {
+                                                    "description": "Описание категории",
+                                                    "type": "string",
+                                                    "example": "Test category description"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки аутентификации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Обьект не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
                                             "type": "string",
                                             "example": "Текст ошибки"
                                         }
@@ -429,7 +759,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Ошибка сервера"
+                                            "example": "Текст ошибки сервера"
                                         }
                                     },
                                     "type": "object"
@@ -443,9 +773,7 @@
                         "bearerAuth": []
                     }
                 ]
-            }
-        },
-        "/api/v1/password-saver-api/categories/{id}": {
+            },
             "put": {
                 "tags": [
                     "Category"
@@ -493,7 +821,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Категория успешно обновлена",
+                        "description": "Успешный ответ",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -531,7 +859,22 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Пользователь не аутентифицирован",
+                                            "type": "string",
+                                            "example": "Текст ошибки аутентификации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Обьект не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
                                             "type": "string",
                                             "example": "Текст ошибки"
                                         }
@@ -549,7 +892,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Поле name обязательно для заполнения."
+                                            "example": "Текст ошибки валидации"
                                         }
                                     },
                                     "type": "object"
@@ -565,7 +908,115 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Ошибка сервера"
+                                            "example": "Текст ошибки сервера"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Удаление категории",
+                "description": "Удаление существующей категории пользователя",
+                "operationId": "deleteCategoryPasswordSaverApi",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID категории для удаления",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Текст успешного удаления категории",
+                                            "type": "string",
+                                            "example": "Категория успешно удалена"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Ошибка аутентификации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки аутентификации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Обьект не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки валидации"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Текст ошибки сервера"
                                         }
                                     },
                                     "type": "object"

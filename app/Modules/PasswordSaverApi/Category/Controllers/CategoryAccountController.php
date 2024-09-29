@@ -26,6 +26,7 @@ class CategoryAccountController extends Controller
      *       summary="Создание категории",
      *       tags={"Category"},
      *       operationId="storeCategoryPasswordSaverApi",
+     *       description="Создание категории пользователя",
      *       @OA\RequestBody(
      *           required=true,
      *           description="Данные для создания категории",
@@ -37,7 +38,7 @@ class CategoryAccountController extends Controller
      *       ),
      *       @OA\Response(
      *           response=200,
-     *           description="Категория успешно создана",
+     *           description="Успешный ответ",
      *           @OA\JsonContent(
      *               @OA\Property(property="data", type="object",
      *                   @OA\Property(property="id", type="integer", example=1, description="ID созданной категории"),
@@ -50,7 +51,7 @@ class CategoryAccountController extends Controller
      *            response=401,
      *            description="Ошибка аутентификации",
      *            @OA\JsonContent(
-     *                @OA\Property(property="message", type="string", example="Текст ошибки", description="Пользователь не аутентифицирован")
+     *                @OA\Property(property="message", type="string", example="Текст ошибки аутентификации")
      *            )
      *       ),
      *       @OA\Response(
@@ -64,7 +65,7 @@ class CategoryAccountController extends Controller
      *           response=500,
      *           description="Внутренняя ошибка сервера",
      *           @OA\JsonContent(
-     *               @OA\Property(property="message", type="string", example="Ошибка сервера")
+     *               @OA\Property(property="message", type="string", example="Текст ошибки сервера")
      *           )
      *       ),
      *       security={{"bearerAuth":{}}},
@@ -117,7 +118,7 @@ class CategoryAccountController extends Controller
      *       ),
      *       @OA\Response(
      *           response=200,
-     *           description="Категория успешно обновлена",
+     *           description="Успешный ответ",
      *           @OA\JsonContent(
      *               @OA\Property(property="data", type="object",
      *                   @OA\Property(property="id", type="integer", example=1, description="ID категории"),
@@ -130,21 +131,28 @@ class CategoryAccountController extends Controller
      *            response=401,
      *            description="Ошибка аутентификации",
      *            @OA\JsonContent(
-     *                @OA\Property(property="message", type="string", example="Текст ошибки", description="Пользователь не аутентифицирован")
+     *                @OA\Property(property="message", type="string", example="Текст ошибки аутентификации")
      *            )
+     *       ),
+     *       @OA\Response(
+     *               response=404,
+     *               description="Обьект не найден",
+     *               @OA\JsonContent(
+     *                   @OA\Property(property="message", type="string", example="Текст ошибки")
+     *               )
      *       ),
      *       @OA\Response(
      *           response=422,
      *           description="Ошибка валидации",
      *           @OA\JsonContent(
-     *               @OA\Property(property="message", type="string", example="Поле name обязательно для заполнения.")
+     *               @OA\Property(property="message", type="string", example="Текст ошибки валидации")
      *           )
      *       ),
      *       @OA\Response(
      *           response=500,
      *           description="Внутренняя ошибка сервера",
      *           @OA\JsonContent(
-     *               @OA\Property(property="message", type="string", example="Ошибка сервера")
+     *               @OA\Property(property="message", type="string", example="Текст ошибки сервера")
      *           )
      *       ),
      *       security={{"bearerAuth":{}}}
@@ -178,6 +186,57 @@ class CategoryAccountController extends Controller
     }
 
     /**
+     * @OA\Delete(
+     *        path="/api/v1/password-saver-api/categories/{id}",
+     *        summary="Удаление категории",
+     *        tags={"Category"},
+     *        operationId="deleteCategoryPasswordSaverApi",
+     *        description="Удаление существующей категории пользователя",
+     *        @OA\Parameter(
+     *            name="id",
+     *            in="path",
+     *            required=true,
+     *            description="ID категории для удаления",
+     *            @OA\Schema(type="integer", example=1)
+     *        ),
+     *        @OA\Response(
+     *            response=200,
+     *            description="Успешный ответ",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Категория успешно удалена", description="Текст успешного удаления категории")
+     *            )
+     *        ),
+     *        @OA\Response(
+     *             response=401,
+     *             description="Ошибка аутентификации",
+     *             @OA\JsonContent(
+     *                 @OA\Property(property="message", type="string", example="Текст ошибки аутентификации")
+     *             )
+     *        ),
+     *        @OA\Response(
+     *               response=404,
+     *               description="Обьект не найден",
+     *               @OA\JsonContent(
+     *                   @OA\Property(property="message", type="string", example="Текст ошибки")
+     *               )
+     *        ),
+     *        @OA\Response(
+     *            response=422,
+     *            description="Ошибка валидации",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки валидации")
+     *            )
+     *        ),
+     *        @OA\Response(
+     *            response=500,
+     *            description="Внутренняя ошибка сервера",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки сервера")
+     *            )
+     *        ),
+     *        security={{"bearerAuth":{}}}
+     * )
+     *
      * Удаление категории
      * @param Request $request
      * @param CategoryAccount $categoryAccount
@@ -200,6 +259,61 @@ class CategoryAccountController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *        path="/api/v1/password-saver-api/categories/{id}",
+     *        summary="Просмотр категории",
+     *        tags={"Category"},
+     *        operationId="showCategoryPasswordSaverApi",
+     *        description="Просмотр существующей категории пользователя",
+     *        @OA\Parameter(
+     *            name="id",
+     *            in="path",
+     *            required=true,
+     *            description="ID категории",
+     *            @OA\Schema(type="integer", example=1)
+     *        ),
+     *        @OA\Response(
+     *            response=200,
+     *            description="Успешный ответ",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="data", type="object",
+     *                    @OA\Property(property="id", type="integer", example=1, description="ID категории"),
+     *                    @OA\Property(property="name", type="string", example="Test category name", description="Название категории"),
+     *                    @OA\Property(property="description", type="string", example="Test category description", description="Описание категории")
+     *                )
+     *            )
+     *        ),
+     *        @OA\Response(
+     *             response=401,
+     *             description="Ошибка аутентификации",
+     *             @OA\JsonContent(
+     *                 @OA\Property(property="message", type="string", example="Текст ошибки аутентификации")
+     *             )
+     *        ),
+     *        @OA\Response(
+     *              response=404,
+     *              description="Обьект не найден",
+     *              @OA\JsonContent(
+     *                  @OA\Property(property="message", type="string", example="Текст ошибки")
+     *              )
+     *        ),
+     *        @OA\Response(
+     *            response=422,
+     *            description="Ошибка валидации",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки валидации")
+     *            )
+     *        ),
+     *        @OA\Response(
+     *            response=500,
+     *            description="Внутренняя ошибка сервера",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки сервера")
+     *            )
+     *        ),
+     *        security={{"bearerAuth":{}}}
+     * )
+     *
      * Просмотр категории
      * @param CategoryAccount $categoryAccount
      * @return CategoryAccountResource
@@ -210,6 +324,78 @@ class CategoryAccountController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *       path="/api/v1/password-saver-api/categories",
+     *       summary="Получение списка категорий",
+     *       tags={"Category"},
+     *       operationId="indexCategoryPasswordSaverApi",
+     *       description="Возвращает список категорий, принадлежащих пользователю, с пагинацией",
+     *       @OA\Response(
+     *           response=200,
+     *           description="Успешный ответ",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="data", type="array",
+     *                   @OA\Items(
+     *                       @OA\Property(property="id", type="integer", example=1, description="ID категории"),
+     *                       @OA\Property(property="name", type="string", example="Test Category Name", description="Название категории"),
+     *                       @OA\Property(property="description", type="string", example="Test category description", description="Описание категории")
+     *                   )
+     *               ),
+     *               @OA\Property(property="links", type="object",
+     *                   @OA\Property(property="first", type="string", example="http://localhost/api/v1/password-saver-api/categories?page=1", description="Ссылка на первую страницу"),
+     *                   @OA\Property(property="last", type="string", example="http://localhost/api/v1/password-saver-api/categories?page=1", description="Ссылка на последнюю страницу"),
+     *                   @OA\Property(property="prev", type="string", nullable=true, example=null, description="Ссылка на предыдущую страницу"),
+     *                   @OA\Property(property="next", type="string", nullable=true, example=null, description="Ссылка на следующую страницу")
+     *               ),
+     *               @OA\Property(property="meta", type="object",
+     *                   @OA\Property(property="current_page", type="integer", example=1, description="Текущая страница"),
+     *                   @OA\Property(property="from", type="integer", example=1, description="Номер первой записи на текущей странице"),
+     *                   @OA\Property(property="last_page", type="integer", example=1, description="Общее количество страниц"),
+     *                   @OA\Property(property="links", type="array",
+     *                       @OA\Items(
+     *                           @OA\Property(property="url", type="string", nullable=true, example=null, description="Ссылка на предыдущую страницу"),
+     *                           @OA\Property(property="label", type="string", example="&laquo; Previous", description="Текст ссылки на предыдущую страницу"),
+     *                           @OA\Property(property="active", type="boolean", example=false, description="Активна ли ссылка")
+     *                       )
+     *                   ),
+     *                   @OA\Property(property="path", type="string", example="http://localhost/api/v1/password-saver-api/categories", description="Базовый URL для запросов пагинации"),
+     *                   @OA\Property(property="per_page", type="integer", example=2, description="Количество записей на странице"),
+     *                   @OA\Property(property="to", type="integer", example=1, description="Номер последней записи на текущей странице"),
+     *                   @OA\Property(property="total", type="integer", example=1, description="Общее количество записей")
+     *               )
+     *           )
+     *       ),
+     *       @OA\Response(
+     *            response=401,
+     *            description="Ошибка аутентификации",
+     *            @OA\JsonContent(
+     *                @OA\Property(property="message", type="string", example="Текст ошибки аутентификации")
+     *            )
+     *       ),
+     *       @OA\Response(
+     *             response=404,
+     *             description="Обьект не найден",
+     *             @OA\JsonContent(
+     *                 @OA\Property(property="message", type="string", example="Текст ошибки")
+     *             )
+     *       ),
+     *       @OA\Response(
+     *           response=422,
+     *           description="Ошибка валидации",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Текст ошибки валидации")
+     *           )
+     *       ),
+     *       @OA\Response(
+     *           response=500,
+     *           description="Внутренняя ошибка сервера",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Текст ошибки сервера")
+     *           )
+     *       ),
+     *       security={{"bearerAuth":{}}}
+     * )
+     *
      * Просмотр список категорий пользователя
      * @param Request $request
      * @param ListCategoryAccountAction $action
